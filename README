@@ -1,0 +1,31 @@
+To use this script first create an empty postgres database, then:
+
+log in to your db:
+psql --host <host> --port <port> --user <username> <dbname>
+
+load the sql:
+begin;
+\i ~/WGE/ddl/1/wge_tables.sql
+commit;
+
+Now we need to set up the database:
+comment out the envdir line in config.yml (or point it to where you want them to go).
+Copy the sample development environment and add your db settings:
+mv environment/development.yml.sample environment/development.yaml
+
+Bring up the webapp to make sure everything is working:
+perl -I lib ./bin/app.pl --port 3030
+
+Now the webapp can see your db lets load some data. Note: Make sure ensembl is installed and in your PERL5LIB.
+
+We have included all the genes and exons (for mouse & human) from ensembl build 73, so load them:
+perl -I lib ./bin/load_genes.pl human_genes_73.yaml
+
+Or if you want to generate the yaml file:
+perl ./bin/get_all_genes.pl <species>
+
+To add all the crispr pairs to the db:
+perl -I lib ./bin/get_all_genes.pl
+
+If you make any changes to the db you can regenerate the DBIx::Class models with:
+perl ./bin/dump_schema.pl

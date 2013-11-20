@@ -1,0 +1,30 @@
+# configuration file for production environment
+
+#
+# Note: to use this you must remove the .sample extension, 
+# change the dbic settings below and alter the envdir in config.yml 
+#
+
+# only log warning and error messsages
+log: "warning"
+
+# log message to a file in logs/
+logger: "file"
+
+# don't consider warnings critical
+warnings: 0
+
+# hide errors 
+show_errors: 0
+
+# cache route resolution for maximum performance
+route_cache: 1
+
+plugins:
+    DBIC:
+        default:
+            dsn: dbi:Pg:host=localhost;port=5442;dbname=wge
+            schema_class: WGE::Model::Schema
+            user: username
+            pass: password
+

@@ -1,0 +1,12 @@
+[22577] debug @0.020128> [hit #17]Searching for marker symbol CB for Mouse in /nfs/users/nfs_a/ah19/work/WGE/lib/WGE.pm l. 52
+[22577] error @0.040089> [hit #17]request to GET /api/gene_search crashed: No schemas are configured at /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Plugin/DBIC.pm line 23. in /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Handler.pm l. 98
+[22577] debug @0.002079> [hit #18]Searching for marker symbol CB for Mouse in /nfs/users/nfs_a/ah19/work/WGE/lib/WGE.pm l. 52
+[22577] error @0.003485> [hit #18]request to GET /api/gene_search crashed: No schemas are configured at /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Plugin/DBIC.pm line 23. in /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Handler.pm l. 98
+[22577] debug @0.003279> [hit #19]Searching for marker symbol CB for Mouse in /nfs/users/nfs_a/ah19/work/WGE/lib/WGE.pm l. 52
+[22577] error @0.006690> [hit #19]request to GET /api/gene_search crashed: No schemas are configured at /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Plugin/DBIC.pm line 23. in /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Handler.pm l. 98
+[23330] debug @0.005670> [hit #2]Searching for marker symbol CB for Human in /nfs/users/nfs_a/ah19/work/WGE/lib/WGE.pm l. 52
+[23330] error @0.012643> [hit #2]request to GET /api/gene_search crashed: No schemas are configured at /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Plugin/DBIC.pm line 23. in /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Handler.pm l. 98
+[23330] debug @0.001741> [hit #3]Searching for marker symbol CB for Human in /nfs/users/nfs_a/ah19/work/WGE/lib/WGE.pm l. 52
+[23330] error @0.002955> [hit #3]request to GET /api/gene_search crashed: No schemas are configured at /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Plugin/DBIC.pm line 23. in /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Handler.pm l. 98
+[23330] debug @0.001579> [hit #4]Searching for marker symbol CB for Human in /nfs/users/nfs_a/ah19/work/WGE/lib/WGE.pm l. 52
+[23330] error @0.002900> [hit #4]request to GET /api/gene_search crashed: No schemas are configured at /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Plugin/DBIC.pm line 23. in /nfs/users/nfs_a/ah19/perl5/lib/perl5/Dancer/Handler.pm l. 98
