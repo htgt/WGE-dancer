@@ -4,4 +4,3 @@ use WGE;
 
 dance;
 
-1;

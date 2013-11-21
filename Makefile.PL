@@ -28,6 +28,10 @@ test_requires 'Test::More';
 test_requires 'Test::WWW::Mechanize::PSGI';
 test_requires 'URI';
 
+#this copies all the directories that we want over,
+#even though we're not actually a catalyst app
+catalyst;
+
 install_script glob('bin/*.pl');
 auto_install;
 WriteAll;
