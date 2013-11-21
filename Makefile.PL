@@ -1,27 +1,34 @@
 use strict;
 use warnings;
-use ExtUtils::MakeMaker;
+use inc::Module::Install;
 
-# Normalize version strings like 6.30_02 to 6.3002,
-# so that we can do numerical comparisons on it.
-my $eumm_version = $ExtUtils::MakeMaker::VERSION;
-$eumm_version =~ s/_//;
+name 'WGE';
+abstract 'Serves paired crispr information';
+all_from 'lib/WGE.pm';
 
-WriteMakefile(
-    NAME                => 'WGE',
-    AUTHOR              => q{Team87 <htgt@sanger.ac.uk>},
-    VERSION_FROM        => 'lib/WGE.pm',
-    ABSTRACT            => 'A tool for finding paired crisprs',
-    ($eumm_version >= 6.3001
-      ? ('LICENSE'=> 'perl')
-      : ()),
-    PL_FILES            => {},
-    PREREQ_PM => {
-        'Test::More'           => 0,
-        'YAML'                 => 0,
-        'Dancer'               => 1.3119,
-        'Dancer::Plugin::DBIC' => 0,
-    },
-    dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean               => { FILES => 'WGE-*' },
-);
+perl_version '5.10.1';
+
+requires 'Moose';
+requires 'Data::Dumper';
+requires 'MooseX::NonMoose';
+requires 'MooseX::MarkAsMethods';
+requires 'Try::Tiny';
+requires 'MooseX::ClassAttribute';
+requires 'namespace::autoclean';
+requires 'YAML';
+requires 'Dancer' => 1.3119;
+requires 'Dancer::Plugin::DBIC';
+requires 'Dancer::Plugin::Ajax';
+requires 'Path::Class';
+requires 'FindBin';
+#requires 'Bio::EnsEMBL::Registry';
+#requires 'Bio::Perl';
+
+test_requires 'Test::More';
+test_requires 'Test::WWW::Mechanize::PSGI';
+test_requires 'URI';
+
+install_script glob('bin/*.pl');
+auto_install;
+WriteAll;
+
