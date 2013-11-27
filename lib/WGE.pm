@@ -13,6 +13,16 @@ set layout => 'main';
 
 prefix undef;
 
+#explicitly set the layout to main for non ajax methods in case
+#it was unset somewhere
+hook before => sub {
+    unless ( request->is_ajax ) {
+        setting layout => 'main';
+    }
+};
+
+#we have to explicitly set the layout to main because
+#we often detach mid ajax method, which leaves the layout set to undef
 get '/' => sub {
     template 'index', {}, { layout => 'main' };
 };
@@ -27,11 +37,11 @@ get '/numbers' => sub {
 };
 
 get '/about' => sub {
-    template 'about', { layout => 'main' };
+    template 'about', {}, { layout => 'main' };
 };
 
 get '/contact' => sub {
-    template 'contact', { layout => 'main' };
+    template 'contact', {}, { layout => 'main' };
 };
 
 #everything below here is api
@@ -51,7 +61,7 @@ ajax '/gene_search' => sub {
     );
 
     #return a list of hashrefs with the matching gene data
-    return [ map { $_->marker_symbol } @genes ];
+    return [ sort map { $_->marker_symbol } @genes ];
 };
 
 ajax '/exon_search' => sub {
@@ -66,8 +76,16 @@ ajax '/exon_search' => sub {
 
     send_error( "No exons found", 400 ) unless $gene;
 
-    #return a list of hashrefs with the matching exon ids
-    return [ map { $_->ensembl_exon_id } $gene->exons ];
+    my @exons = map { 
+            {
+                exon_id => $_->ensembl_exon_id, 
+                rank    => $_->rank,
+                len     => $_->chr_end - $_->chr_start,
+            } 
+        } sort { $a->rank <=> $b->rank } $gene->exons;
+
+    #return a list of hashrefs with the matching exon ids and ranks
+    return { transcript => $gene->canonical_transcript, exons => \@exons };
 };
 
 ajax '/crispr_search' => sub {

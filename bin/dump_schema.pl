@@ -91,7 +91,7 @@ dump_schema.pl [options]
 
     --host            the host where your db is located, defaults to $ENV{PGHOST}
     --port            the port where your db is located, defaults to $ENV{PGPORT}
-    --db-name         the db name, defaults to $ENV{PGDATABASE}
+    --dbname         the db name, defaults to $ENV{PGDATABASE}
     --user            the postgres user to run as, defaults to the user running the script
     --schema          the postgres schema to use, defaults to public
     --schema-class    the class name of your model, defaults to WGE::Model::Schema
@@ -102,7 +102,7 @@ dump_schema.pl [options]
 
 Example usage:
 
-perl ./bin/dump_schema.pl --host localhost --port 5445 --user wge
+perl ./bin/dump_schema.pl --host localhost --port 5445 --user wge --dbname wge
 
 =head1 DESCRIPTION
 

@@ -5,14 +5,15 @@ CREATE TABLE species (
 INSERT INTO species VALUES ('Human'), ('Mouse');
 
 CREATE TABLE genes (
-    id                SERIAL PRIMARY KEY,
-    species_id        TEXT NOT NULL REFERENCES species(id),
-    marker_symbol     TEXT NOT NULL,
-    ensembl_gene_id   TEXT NOT NULL,
-    strand            INTEGER NOT NULL,
-    chr_start         INTEGER NOT NULL,
-    chr_end           INTEGER NOT NULL,
-    chr_name          TEXT NOT NULL,
+    id                   SERIAL PRIMARY KEY,
+    species_id           TEXT NOT NULL REFERENCES species(id),
+    marker_symbol        TEXT NOT NULL,
+    ensembl_gene_id      TEXT NOT NULL,
+    strand               INTEGER NOT NULL,
+    chr_start            INTEGER NOT NULL,
+    chr_end              INTEGER NOT NULL,
+    chr_name             TEXT NOT NULL,
+    canonical_transcript TEXT NOT NULL,
     UNIQUE ( ensembl_gene_id ),
     UNIQUE ( species_id, marker_symbol )
 );
@@ -26,6 +27,7 @@ CREATE TABLE exons (
     chr_start         INTEGER NOT NULL,
     chr_end           INTEGER NOT NULL,
     chr_name          TEXT NOT NULL,
+    rank              INTEGER NOT NULL,
     UNIQUE ( ensembl_exon_id )
 );
 

@@ -21,7 +21,7 @@ use Try::Tiny;
 for my $filename ( @ARGV ) {
     my $genes_yaml = LoadFile( $filename ) || die "Couldn't open $filename: $!";
 
-    $schema->resultset('Gene')->load_from_hash( $genes_yaml );
+    schema->resultset('Gene')->load_from_hash( $genes_yaml );
 }
 
 1;

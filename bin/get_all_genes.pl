@@ -24,6 +24,7 @@ GetOptions(
 ) or pod2usage( 2 );
 
 for my $species ( @species ) {
+    say "Getting genes for $species";
     my $e = LIMS2::Util::EnsEMBL->new( species => $species );
     my $ens_version = $e->gene_adaptor->schema_version;
 
@@ -48,28 +49,35 @@ for my $species ( @species ) {
         chr_name   => 'seq_region_name',
     );
 
-    #for my $i ( 0 ) {
     while ( my $gene = shift @{ $genes } ) {
 
         #add all the gene fields
-        $genes_yaml{ $gene->stable_id } = get_fields( $gene, \%gene_fields );
+        $genes_yaml{ $gene->stable_id } =
+            get_fields( 
+                $gene, 
+                \%gene_fields, 
+                canonical_transcript => $gene->canonical_transcript->stable_id 
+            );
 
-        #populate the exons hash 
+        #populate the exons hash
+        my $rank = 1;
         for my $exon ( @{ $gene->canonical_transcript->get_all_Exons} ) {
-            $genes_yaml{ $gene->stable_id }->{ exons }{ $exon->stable_id } = get_fields( $exon, \%exon_fields );
+            $genes_yaml{ $gene->stable_id }->{ exons }{ $exon->stable_id } =
+                get_fields( 
+                    $exon, 
+                    \%exon_fields, 
+                    rank => $rank++
+                );
         }
     }
-
-    #say Dumper( \%genes_yaml );
 
     DumpFile( "${species}_genes_${ens_version}.yaml", { $species => \%genes_yaml } );
 }
 
-#method to extract data from an ensembl object driven by a hash of keys mapped to method names
+#method to extract data from an ensembl object driven by a hash of keys mapped 
+#to method names any additional parameters are added into the data hash.
 sub get_fields {
-    my ( $object, $fields ) = @_;
-
-    my %data;
+    my ( $object, $fields, %data ) = @_;
 
     while ( my ( $field_name, $method ) = each %{ $fields } ) {
         $data{ $field_name } = $object->$method;

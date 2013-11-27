@@ -2,6 +2,7 @@
   $(document).ready(function() {
     //add autocomplete to the gene box
     $('#gene').autocomplete( {
+        autoFocus: true,
         source: function (request, response) {
           $.get('api/gene_search', { name: request.term, species: get_species() }, 
             function (data) {
@@ -10,15 +11,17 @@
            .fail(ajax_failed);
         },
         select: function (event, ui) {
+          strip_error( $(this) ); //error no longer valid
           $.get('api/exon_search', { marker_symbol: ui.item.value, species: get_species() },
             function (data) {
               //console.log(data);
               $("#exons").find('option').remove(); //clear old exons
+              $("#exon_label").html("Exons for " + data.transcript);
               //add new exons into the form
-              $.each(data, function(i, val) { 
+              $.each(data.exons, function(i, val) { 
                 $("#exons").append($('<option>', { 
-                    value: val,
-                    text : val 
+                    value: val.exon_id,
+                    text : val.rank + '. ' + val.exon_id + ' (length ' + val.len + ')'
                 }));
               });
             });
@@ -30,15 +33,38 @@
     $("#search").click(function (event) {
       //stop it from submitting the form
       event.preventDefault();
+
+      if( ! form_valid() ) {
+        return;
+      }
+
       $("#search").button('loading');
       $("#crispr_table").remove(); //we want to keep the headings tbh. fine for now
       var table = get_pairs();
     });
+
+    //if someone selects a species then remove the error class
+    $("#crispr_search").find('input[type=radio]').click(function() { 
+      strip_error( $(this) );
+    });
+
+    $("#exons").click(function() {
+      strip_error( $(this) );
+    });
   });
+
+  //find parent div of whatever jquery object is passed
+  function strip_error(item) {
+    item.closest("div").removeClass("has-error");
+  }
+
+  function get_selected_exons() {
+    return $("#exons").find('option:selected').map(function() { return this.value }).get();
+  }
 
   function get_pairs() {
     //get all the selected exon ids
-    var exons = $("#exons").find('option:selected').map(function() { return this.value }).get();
+    var exons = get_selected_exons();
 
     //create a table or clear the existing one.
     var table = get_table();
@@ -178,24 +204,51 @@
 
     return table;
   }
+
+  function form_valid() {
+    if ( ! get_species() ) {
+      console.log("Please choose a species.");
+      $("#species").addClass("has-error");
+      return false;
+    }
+    else if ( $("#gene").val() == "" ) {
+      console.log("No marker symbol provided.");
+      $("#marker_symbol").addClass("has-error");
+      return false;
+    }
+    else if ( ! get_selected_exons().length ) {
+      console.log("Please choose an exon.");
+      $("#exon_id").addClass("has-error");
+      return false;
+    }
+
+    return true; 
+  }
 </script>
 
 <form role="form" id="crispr_search">
   <fieldset id="fields">
     <legend>Paired Crispr Search</legend>
-    <label>Species</label>
-    <label class="radio">
-      <input type="radio" class="radio" name="species" id="radio_mouse" value="Mouse" />Mouse
-    </label>
-    <label class="radio">
-      <input type="radio" name="species" id="radio_human" value="Human" />Human
-    </label>
+    <div class="form-group" id="species">
+      <label class="control-label">Species</label>
+      <label class="radio">
+        <input type="radio" name="species" id="radio_mouse" value="Mouse" />Mouse
+      </label>
+      <label class="radio">
+        <input type="radio" name="species" id="radio_human" value="Human" />Human
+      </label>
+    </div>
     <br/>
-    <div class="col-xs-3">
-      <label>Marker Symbol</label>
-      <input type="text" class="form-control" id="gene" placeholder="Enter gene" autocomplete="off" /><br/>
-      <label>Exon ID</label>
-      <select multiple="multiple" class="form-control" name="exons" id="exons" autocomplete="off"></select>
+    <div class="col-xs-4">
+      <div class="form-group" id="marker_symbol">
+        <label class="control-label">Marker Symbol</label>
+        <input type="text" class="form-control" id="gene" placeholder="Enter gene" autocomplete="off" />
+      </div>
+      <br/>
+      <div class="form-group" id="exon_id">
+        <label class="control-label" id="exon_label">Exons</label>
+        <select multiple="multiple" class="form-control" name="exons" id="exons" autocomplete="off"></select>
+      </div>
       <br/>
       <button class="btn btn-default" id="search" autocomplete="off">Find paired crisprs</button>
     </div>

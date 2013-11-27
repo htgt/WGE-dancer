@@ -71,6 +71,11 @@ __PACKAGE__->table("exons");
   data_type: 'text'
   is_nullable: 0
 
+=head2 rank
+
+  data_type: 'integer'
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -91,6 +96,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 0 },
   "chr_name",
   { data_type => "text", is_nullable => 0 },
+  "rank",
+  { data_type => "integer", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -137,8 +144,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07022 @ 2013-11-05 13:16:46
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:WhcIwVw281wCbnVq8I2r3Q
+# Created by DBIx::Class::Schema::Loader v0.07022 @ 2013-11-27 16:26:06
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uMBFi2/DIBNQ2tnkYI/d7A
 
 sub crisprs {
     my ( $self, $options ) = @_;

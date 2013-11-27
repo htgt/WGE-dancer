@@ -32,5 +32,5 @@ serializer: 'JSON'
 require_environment: 1
 
 #db connection data will be in here
-envdir: "/opt/t87/global/conf/WGE/environments"
+envdir: "/opt/t87/global/conf/wge/environments"
 
