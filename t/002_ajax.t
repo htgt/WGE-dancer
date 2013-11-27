@@ -84,17 +84,20 @@ $test->add_ajax_headers;
         { 
             name   => 'PRSS3 exons', 
             data   => { species => 'Mouse', marker_symbol => 'Gnai3' }, 
-            expect => [ qw(
-                ENSMUSE00000276482
-                ENSMUSE00000276490
-                ENSMUSE00000276500
-                ENSMUSE00000334714
-                ENSMUSE00000363317
-                ENSMUSE00000404895
-                ENSMUSE00000565000
-                ENSMUSE00000565001
-                ENSMUSE00000565003
-            ) ] 
+            expect => { 
+              transcript => 'ENSMUST00000000001',
+              exons => [
+                { exon_id => "ENSMUSE00000334714", rank => 1, len => 258, },
+                { exon_id => "ENSMUSE00000276500", rank => 2, len => 42, },
+                { exon_id => "ENSMUSE00000276490", rank => 3, len => 141, },
+                { exon_id => "ENSMUSE00000276482", rank => 4, len => 157, },
+                { exon_id => "ENSMUSE00000565003", rank => 5, len => 128, },
+                { exon_id => "ENSMUSE00000565001", rank => 6, len => 129, },
+                { exon_id => "ENSMUSE00000565000", rank => 7, len => 153, },
+                { exon_id => "ENSMUSE00000404895", rank => 8, len => 209, },
+                { exon_id => "ENSMUSE00000363317", rank => 9, len => 2036, },
+              ]
+            }
         },
     ];
 
@@ -144,9 +147,9 @@ sub test_json {
 
         $test->mech->$method( $test->get_uri($url_base, $item->{data}), 'Can get '.$item->{name} );
 
-        #if ( $item->{name} eq 'multiple exon pairs' ) {
-        #    print Dumper( from_json( $test->mech->content ) );
-        #}
+        # if ( $item->{name} eq 'PRSS3 exons' ) {
+        #     print Dumper( from_json( $test->mech->content ) );
+        # }
 
         is_deeply( 
             from_json( $test->mech->content ), 

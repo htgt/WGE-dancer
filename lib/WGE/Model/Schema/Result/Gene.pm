@@ -84,7 +84,7 @@ __PACKAGE__->table("genes");
 =head2 canonical_transcript
 
   data_type: 'text'
-  is_nullable: 1
+  is_nullable: 0
 
 =cut
 
@@ -111,7 +111,7 @@ __PACKAGE__->add_columns(
   "strand",
   { data_type => "integer", is_nullable => 0 },
   "canonical_transcript",
-  { data_type => "text", is_nullable => 1 },
+  { data_type => "text", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -190,8 +190,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07022 @ 2013-11-27 16:26:06
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:oL8/Wm8p8s5ZfYCryb7mxA
+# Created by DBIx::Class::Schema::Loader v0.07022 @ 2013-11-27 17:14:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OPfOxFPOs7mDYEUoqfiNWQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
