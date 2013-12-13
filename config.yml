@@ -32,5 +32,9 @@ serializer: 'JSON'
 require_environment: 1
 
 #db connection data will be in here
-envdir: "/opt/t87/global/conf/wge/environments"
+
+#
+#CHANGE THIS BACK
+
+envdir: "/nfs/users/nfs_a/ah19/work/dancer_envs"
 

@@ -34,23 +34,25 @@ CREATE TABLE exons (
 CREATE INDEX idx_exon_loci ON exons (chr_name, chr_start, chr_end);
 
 CREATE TABLE crisprs (
-    id                SERIAL PRIMARY KEY,
-    chr_start         INTEGER NOT NULL,
-    chr_end           INTEGER NOT NULL,
-    chr_name          TEXT NOT NULL,
-    seq               TEXT NOT NULL,
-    pam_right         BOOLEAN NOT NULL,
-    species_id        TEXT NOT NULL REFERENCES species(id),
+    id                 SERIAL PRIMARY KEY,
+    chr_start          INTEGER NOT NULL,
+    chr_end            INTEGER NOT NULL,
+    chr_name           TEXT NOT NULL,
+    seq                TEXT NOT NULL,
+    pam_right          BOOLEAN NOT NULL,
+    species_id         TEXT NOT NULL REFERENCES species(id),
+    off_target_summary TEXT,
     UNIQUE ( chr_start, chr_end, chr_name, pam_right, species_id )
 );
 
 CREATE INDEX idx_crispr_loci ON crisprs (chr_name, chr_start, chr_end);
 
 CREATE TABLE crispr_pairs (
-    id                SERIAL PRIMARY KEY,
-    left_crispr_id    INTEGER NOT NULL REFERENCES crisprs(id),
-    right_crispr_id   INTEGER NOT NULL REFERENCES crisprs(id),
-    spacer            INTEGER NOT NULL,
+    id                 SERIAL PRIMARY KEY,
+    left_crispr_id     INTEGER NOT NULL REFERENCES crisprs(id),
+    right_crispr_id    INTEGER NOT NULL REFERENCES crisprs(id),
+    spacer             INTEGER NOT NULL,
+    off_target_summary TEXT,
     UNIQUE( left_crispr_id, right_crispr_id )
 );
 

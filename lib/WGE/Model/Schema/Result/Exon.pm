@@ -166,6 +166,12 @@ sub pairs {
   return $self->crisprs->all_pairs;
 }
 
+sub pairs_fast {
+  my ( $self, $options ) = @_;
+
+  return $self->result_source->schema->resultset('CrisprPairRegion')->search_by_loci( $self, $options );
+}
+
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;
 1;
